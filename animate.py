@@ -20,8 +20,9 @@ def animate_fun(province):
 
 		Parameters:
 			province (str): Name of the province 
-			                example: "Ontario", "British Columbia", "Quebec", "Alberta", "Saskatchewan", "Manitoba",
-			                         "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Prince Edward Island"
+			                example: "Ontario", "British Columbia", "Quebec", "Alberta", "Saskatchewan", 
+			                "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", 
+			                "Prince Edward Island"
 
 		Returns:
 			figure: Shows number of confirmed cases for a province.
