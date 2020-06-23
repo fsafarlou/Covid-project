@@ -2,6 +2,8 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 import argparse
+import requests
+
 
 def loading_data(file):
 	""" Reads and Return csv file.
@@ -12,6 +14,9 @@ def loading_data(file):
 		Returns:
 			The data of the file.
 	"""
+	url = "https://health-infobase.canada.ca/src/data/covidLive/covid19.csv"
+	gets_data = requests.get(url, allow_redirects=True)
+	open("data.csv", 'wb').write(gets_data.content)
 	return pd.read_csv(file)
 
 
@@ -49,7 +54,7 @@ def animate_fun(province):
 
 	transposed_df = graph_df.transpose()
 	
-	x_axis = list(range(transposed_df.shape[1]-1))
+	x_axis = list(range(transposed_df.shape[1]))
 	y_axis = list(transposed_df.loc[province:])
 	
 	province_index = {"Ontario":{'index':0,'color':'#ff6644'},
@@ -68,7 +73,7 @@ def animate_fun(province):
 	        color = province_index[key]['color']
 
 	frames = []
-	for frame in range(1,113):
+	for frame in range(1,transposed_df.shape[1]):
 		y_axis_frame = list(transposed_df.iloc[row,1:frame])
 		x_axis_frame = list(transposed_df.columns)
 		curr_frame = go.Frame(data = [go.Scatter(x = x_axis_frame, y = y_axis_frame, mode = "lines", line_color=color,line_width = 3.5)])
@@ -96,7 +101,7 @@ def animate_fun(province):
 	        'xanchor': 'center',
 	        'yanchor': 'top'})
 	figure.show()
-	# print(x_axis_frame)
+
 
 def Main():
 	parser = argparse.ArgumentParser()
@@ -104,7 +109,6 @@ def Main():
 
 	args = parser.parse_args()
 	pr = animate_fun(args.data1)
-	# print(pr)
 	
 if __name__ == '__main__':
 	Main()
